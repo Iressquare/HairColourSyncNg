@@ -15,8 +15,11 @@ jobs:
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Setup vcpkg
-        uses: lukka/run-vcpkg@v11
+      - name: Update and Setup vcpkg
+        run: |
+          cd $env:VCPKG_ROOT
+          git pull
+          .\bootstrap-vcpkg.bat -disableMetrics
 
       - name: Configure and Build
         run: |
