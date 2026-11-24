@@ -15,15 +15,14 @@ jobs:
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Update and Setup vcpkg
+      - name: Install latest vcpkg
         run: |
-          cd $env:VCPKG_ROOT
-          git pull
-          .\bootstrap-vcpkg.bat -disableMetrics
+          git clone https://github.com C:\vcpkg
+          C:\vcpkg\bootstrap-vcpkg.bat -disableMetrics
 
       - name: Configure and Build
         run: |
-          cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
+          cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
           cmake --build build --config Release
 
       - name: Upload DLL
